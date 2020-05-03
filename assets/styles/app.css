@@ -18,6 +18,9 @@ th,td{
   padding-left: 3px;
   padding-right: 2px;
 }
+th{
+  cursor: pointer;
+}
 
 .incomeClass{
   display:flex;
@@ -40,7 +43,6 @@ color: #F2F2F2;
 }
 
 button {
- 
 background-color: #2B2B28;
 padding:5px;
 margin-top: 3px;
@@ -52,4 +54,6 @@ font-size: 20px;
 line-height: 140.62%;
 letter-spacing: 0.15em;
 color: #F2F2F2;
+
+cursor: pointer;
 }
