@@ -1,0 +1,36 @@
+<!-- 
+1.Table Income
+2.Responsive -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Responsive Dynamic Table with JS + CSS</title>
+  <link rel="stylesheet" href="assets/styles/app.css">
+  <script src="src/app.js" defer></script>
+</head>
+
+<body>
+  <table id="table">
+    <input type="text" id="input" placeholder="search for company..." />
+    <thead>
+      <tr>
+        <th id="companyId">Id</th>
+        <th id="name">Name</th>
+        <th id="city">City</th>
+        <th id="totalIncome">Income
+        </th>
+      </tr>
+
+    <tbody id="tableBody">
+    </tbody>
+    </thead>
+  </table>
+  <div class="paginationItems" id="pagination"></div>
+</body>
+
+</html>
