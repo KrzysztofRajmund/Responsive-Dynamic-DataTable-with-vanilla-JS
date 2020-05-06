@@ -7,7 +7,7 @@ const companyId = document.getElementById("companyId");
 
 //FETCH COMPANIES
 let dataTable = new Array();
-let dataIncome = [];
+let incomesTable = new Array();
 let currentPage = 1
 
 const fetchCompanies = async () => {
@@ -19,13 +19,37 @@ const fetchCompanies = async () => {
     dataTable.push(data);
     dataTable = dataTable[0];
 
+    fetchIdFunc(dataTable);
+
     pagination(dataTable,currentPage);
-    console.log(dataTable, "fetch companies");
+    // console.log(dataTable, "fetch companies");
+    // console.log(dataTable[0].id, "first ID");
 
   } catch (error) {
     console.log(error);
   }
 };
+
+const fetchIdFunc = (dataTable) =>{
+dataTable.forEach(company =>{
+      gettingIncomes(company.id)
+    })
+  }
+
+const gettingIncomes = async (id) => {
+  
+    const response = await fetch(
+      `https://recruitment.hal.skygate.io/incomes/` + id
+    );
+
+    const data = await response.json();
+    incomesTable.push(data);
+};
+
+console.log(dataTable, "fetch companies OUTSIDE");
+console.log(incomesTable,"OUTSIDE INCOME TABLE");
+
+
 
 //PAGINATION + ADD COMPANY
 let tableElement = document.getElementById("tableBody")
@@ -49,7 +73,8 @@ const pagination = (dataTable,currentPage) => {
 <td>${pageItem.name.toUpperCase()}</td>
 <td>${pageItem.city}</td> 
 `;
-    fetchIncome(`${pageItem.id}`);
+    fetchIncomeSecond(`${pageItem.id}`);
+
     tableBody.append(trBody);
   
   }
@@ -214,14 +239,16 @@ const companyIdSortHandler = () => {
 
 //FETCH INCOMES OF COMPANY X SECOND METHOD !!!
 
-const fetchIncome = async (id) => {
-  try {
-    const response = await fetch(
-      `https://recruitment.hal.skygate.io/incomes/` + id
-    );
+const fetchIncomeSecond = (id) =>{
 
-    const dataIncome = await response.json();
+let i = incomesTable.find( c => c.id === id)
+console.log(i)
+}
 
+
+
+const fetchIncome = (id) => {
+ 
     //total income
     let sum = 0;
     dataIncome.incomes.forEach((item) => {
@@ -258,9 +285,7 @@ const fetchIncome = async (id) => {
      
     `;
     document.getElementById(`"${dataIncome.id}-td"`).append(trBody);
-  } catch (error) {
-    console.log(error);
-  }
+  
 };
 
 //FETCH INCOMES OF COMPANY X SECOND METHOD !!!
