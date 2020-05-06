@@ -22,12 +22,6 @@ th{
   cursor: pointer;
 }
 
-.incomeClass{
-  display:flex;
-  flex-direction:column;
-  background-color: #CFD8DC;
-}
-
 input{
 background-color: #2B2B28;
 padding:5px;
