@@ -3,6 +3,9 @@ const input = document.getElementById("input");
 const name = document.getElementById("name");
 const city = document.getElementById("city");
 const companyId = document.getElementById("companyId");
+const totalIncome = document.getElementById("totalIncome");
+const averageIncome = document.getElementById("averageIncome");
+const lastMonthIncome = document.getElementById("lastMonthIncome");
 
 //GLOBAL VAR
 let table = new Array();
@@ -85,11 +88,11 @@ const pagination = (table, currentPage) => {
 <td>${pageItem.id}</td>
 <td>${pageItem.name.toUpperCase()}</td>
 <td>${pageItem.city}</td> 
-<td>\$${sum.toFixed(2)}</td>
-<td>\$${averageIncome.toFixed(2)}</td>
-<td>\$${lastMonthIncome.toFixed(2)}</td>
+<td>${sum.toFixed(2)}</td>
+<td>${averageIncome.toFixed(2)}</td>
+<td>${lastMonthIncome.toFixed(2)}</td>
 `;
-    tableBody.append(trBody);
+    tableElement.append(trBody);
   }
   paginationButtons(numberOfPages);
 };
@@ -138,103 +141,127 @@ const paginationButtons = (numberOfPages) => {
   }
 };
 
-//FUNCTIONS SORTING
+//DYNAMIC FUNCTION SORTING
 let order = true;
-
 
 //name
 const nameSortHandler = () => {
-  if (order === true) {
-    table.sort((a, b) => {
-      let nameA = a.name.toUpperCase();
-      let nameB = b.name.toUpperCase();
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      return 0;
-    });
-  }
-  if (order === false) {
-    table.sort((b, a) => {
-      let nameA = a.name.toUpperCase();
-      let nameB = b.name.toUpperCase();
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      return 0;
-    });
-  }
-
-  order = !order;
-
-  pagination(table, currentPage);
+  let key = "name";
+  sortTable(key);
 };
-
 //city
 const citySortHandler = () => {
-  if (order === true) {
-    table.sort((a, b) => {
-      let cityA = a.city.toUpperCase();
-      let cityB = b.city.toUpperCase();
-
-      if (cityA < cityB) {
-        return -1;
-      }
-      if (cityA > cityB) {
-        return 1;
-      }
-      return 0;
-    });
-  }
-
-  if (order === false) {
-    table.sort((b, a) => {
-      let cityA = a.city.toUpperCase();
-      let cityB = b.city.toUpperCase();
-
-      if (cityA < cityB) {
-        return -1;
-      }
-
-      if (cityA > cityB) {
-        return 1;
-      }
-      return 0;
-    });
-  }
-  order = !order;
-  pagination(table, currentPage);
+  let key = "city";
+  sortTable(key);
 };
-
-// company ID
+//id
 const companyIdSortHandler = () => {
-  if (order === true) {
-    table.sort((a, b) => {
-      return a.id - b.id;
-    });
-  }
+  let key = "id";
+  sortTable(key);
+};
 
-  if (order === false) {
-    table.sort((b, a) => {
-      return a.id - b.id;
-    });
-  }
+const sortTable = (key) => {
+  if (order === true) table.sort(compareValues(key));
+  if (order === false) table.sort(compareValues(key, "desc"));
 
   order = !order;
-
   pagination(table, currentPage);
 };
 
+const compareValues = (key, order = "asc") => {
+  return function innerSort(a, b) {
+    if (!a.hasOwnProperty(key) || !b.hasOwnProperty(key)) {
+      return 0;
+    }
+
+    const varA = typeof a[key] === "string" ? a[key].toUpperCase() : a[key];
+    const varB = typeof b[key] === "string" ? b[key].toUpperCase() : b[key];
+
+    let comparison = 0;
+    if (varA > varB) {
+      comparison = 1;
+    } else if (varA < varB) {
+      comparison = -1;
+    }
+    return order === "desc" ? comparison * -1 : comparison;
+  };
+};
+
+//TABLE SORTING - INCOME
+
+//totalIncome
+const totalIncomeSortHandler = () => {
+  const totalTD = 3;
+  tableSortingIncome(totalTD);
+};
+//averageIncome
+const averageIncomeSortHandler = () => {
+  const averageTD = 4;
+  tableSortingIncome(averageTD);
+};
+//lastMonthIncome
+const lastMonthIncomeSortHandler = () => {
+  const lastMonthTD = 5;
+  tableSortingIncome(lastMonthTD);
+};
+
+const tableSortingIncome = (td) => {
+  console.log("clicked");
+  let tbody,
+    rows,
+    switching,
+    i,
+    x,
+    y,
+    shouldSwitch,
+    order,
+    orderCount = 0;
+  tbody = document.getElementById("tableBody");
+
+  switching = true;
+  order = "asc";
+
+  while (switching) {
+    switching = false;
+    rows = tbody.rows;
+    for (i = 0; i < rows.length - 1; i++) {
+      shouldSwitch = false;
+
+      x = rows[i].getElementsByTagName("TD")[td];
+      y = rows[i + 1].getElementsByTagName("TD")[td];
+
+      if (order == "asc") {
+        if (parseInt(x.innerHTML) > parseInt(y.innerHTML)) {
+          shouldSwitch = true;
+          break;
+        }
+      } else if (order == "dsc") {
+        if (parseInt(x.innerHTML) < parseInt(y.innerHTML)) {
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      orderCount++;
+    } else {
+      if (orderCount == 0 && (order = "asc")) {
+        order = "dsc";
+        switching = true;
+      }
+    }
+  }
+};
 
 //EVENTS
 document.addEventListener("DOMContentLoaded", () => fetchCompanies());
 name.addEventListener("click", nameSortHandler);
 city.addEventListener("click", citySortHandler);
 companyId.addEventListener("click", companyIdSortHandler);
+totalIncome.addEventListener("click", totalIncomeSortHandler);
+averageIncome.addEventListener("click", averageIncomeSortHandler);
+lastMonthIncome.addEventListener("click", lastMonthIncomeSortHandler);
 input.addEventListener("keyup", inputHandler);
