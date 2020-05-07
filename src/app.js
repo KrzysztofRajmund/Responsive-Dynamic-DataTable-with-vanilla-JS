@@ -34,7 +34,10 @@ const gettingIncomes = async (company) => {
   );
 
   const data = await response.json();
+
+  //adding income to the company object
   company.income = data;
+  
   table.push(company);
   pagination(table, currentPage);
 };
