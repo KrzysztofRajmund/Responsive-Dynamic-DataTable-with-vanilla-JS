@@ -1,3 +1,4 @@
+
 //DOM ELEMENTS
 const input = document.getElementById("input");
 const name = document.getElementById("name");
@@ -14,9 +15,7 @@ let currentPage = 1;
 //FETCH COMPANIES
 const fetchCompanies = async () => {
   try {
-    const response = await fetch(
-      `https://recruitment.hal.skygate.io/companies`
-    );
+    const response = await fetch(process.env.COMPANIES_URL);
     let data = await response.json();
 
     data.forEach((company) => {

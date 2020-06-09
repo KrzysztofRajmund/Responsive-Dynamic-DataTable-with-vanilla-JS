@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "build:server": "webpack-dev-server"
+    "build:server": "webpack-dev-server",
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "author": "Krzysztof Nadlonek",
   "license": "ISC",
@@ -20,5 +22,7 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "dotenv": "^8.2.0"
+  }
 }

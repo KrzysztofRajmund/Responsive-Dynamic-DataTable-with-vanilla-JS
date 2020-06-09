@@ -10,7 +10,7 @@ table {
   width: 100%;
   border: 2px solid;
   border-collapse: collapse;
-  box-shadow: 0px 4px 10px rgba(43, 43, 40, 0.25);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 th,td{
@@ -20,6 +20,7 @@ th,td{
 }
 th{
   cursor: pointer;
+  background-color: #cccc;
 }
 
 input{
