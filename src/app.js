@@ -15,7 +15,7 @@ let currentPage = 1;
 //FETCH COMPANIES
 const fetchCompanies = async () => {
   try {
-    const response = await fetch(process.env.COMPANIES_URL);
+    const response = await fetch("https://recruitment.hal.skygate.io/companies");
     let data = await response.json();
 
     data.forEach((company) => {
